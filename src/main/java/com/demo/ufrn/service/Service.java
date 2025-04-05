@@ -1,25 +1,47 @@
 package com.demo.ufrn.service;
 
-import java.util.Arrays;
+import com.demo.ufrn.domain.animal.Animal;
+import com.demo.ufrn.domain.user.Cliente;
+import com.demo.ufrn.domain.user.User;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @org.springframework.stereotype.Service
 public class Service {
-    List<String> arry = Arrays.asList("erick", "cmil", "ciço", "giza");
 
-    public String sayHello() {
-        return "Hello World";
+    List<Cliente> usuarios = new ArrayList<Cliente>();
+
+    public Cliente cria_user(Cliente user) {
+        usuarios.add(user);
+        return usuarios.get(usuarios.size() - 1);
     }
 
-    public void add(String s) {
-        arry.add(s);
+    public void cria_pet(Animal animal, int id_tutor) {
+        for(Cliente c : usuarios) {
+            if(c.getId() == id_tutor) {
+                c.getAnimais().add(animal);
+                break;
+            }
+        }
     }
 
-    public String mostrar(){
-        return arry.toString();
+    public List<Animal> lista_pets_tutor(int id_tutor) {
+        for(Cliente c : usuarios) {
+            if(c.getId() == id_tutor) {
+                return c.getAnimais();
+            }
+        }
+        return null;
     }
 
-    public String mostrar(String index){
-        return arry.get(Integer.parseInt(index));
+    public void realiza_pagamento(int id) {
+        for(Cliente c : usuarios) {
+            if(c.getId() == id) {
+                c.fazerPagemento();
+                break;
+            }
+        }
+        System.out.println("Usuario não encontrado");
     }
 }
